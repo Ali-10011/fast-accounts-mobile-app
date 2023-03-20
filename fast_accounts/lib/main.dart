@@ -1,4 +1,4 @@
-import 'package:fast_accounts/views/home.dart';
+import 'package:fast_accounts/views/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FastAccounts',    
-      theme: ThemeData.dark(),
+      title: 'FastAccounts',
+      theme: ThemeData.light(),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const DashBoard(),
     );
   }
 }
