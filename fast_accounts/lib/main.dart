@@ -1,4 +1,4 @@
-import 'package:fast_accounts/views/dashboard.dart';
+import 'package:fast_accounts/views/Sales/customers.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'FastAccounts',
       theme: ThemeData.light(),
       debugShowCheckedModeBanner: false,
-      home: const DashBoard(),
+      home: const Customers(),
     );
   }
 }

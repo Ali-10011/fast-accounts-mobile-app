@@ -1,3 +1,4 @@
+import 'package:fast_accounts/views/Sales/customers.dart';
 import 'package:fast_accounts/views/dashboard.dart';
 import 'package:fast_accounts/views/generate_token.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,11 @@ class NavigationDrawerWidget extends StatelessWidget {
       case 0:
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const DashBoard(),
+        ));
+        break;
+      case 11:
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const Customers(),
         ));
         break;
       case 20:
