@@ -5,63 +5,80 @@ import 'package:flutter/material.dart';
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({super.key});
 
+//function to generate Navigation Drawer Tiles
+  Widget drawerTile(
+      {required String title,
+      required int index,
+      required BuildContext context,
+      IconData? icon}) {
+    return ListTile(
+        title: Text(title),
+        onTap: () => selectedItem(context, index),
+        leading: (icon == null) ? null : Icon(icon));
+  }
+
+//function to Navigat based on choice
+  void selectedItem(BuildContext context, int index) {
+    Navigator.of(context).pop();
+
+    switch (index) {
+      case 0:
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const DashBoard(),
+        ));
+        break;
+      case 20:
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const GenerateToken(),
+        ));
+        break;
+      default:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(children: [
-        const ListTile(
-          title: Text('FAST ACCOUNTS'),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 5, 0, 15),
+          child: ListTile(
+            title: Center(
+                child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                      text: 'FAST ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black,
+                          fontSize: MediaQuery.of(context).size.width * 0.050)),
+                  TextSpan(
+                      text: 'ACCOUNTS',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: MediaQuery.of(context).size.width * 0.050)),
+                ],
+              ),
+            )),
+          ),
         ),
-        ListTile(
-          leading: const Icon(Icons.dashboard),
-          title: const Text('Dashboard'),
-          onTap: () {
-            Navigator.of(context).pop();
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DashBoard(),
-                ));
-          },
-        ),
+        drawerTile(
+            title: "Dashboard",
+            index: 0,
+            context: context,
+            icon: Icons.dashboard),
         ExpansionTile(
           title: const Text("Bank"),
           leading: const Icon(Icons.account_balance), //add icon
           childrenPadding: const EdgeInsets.only(left: 60), //children padding
           children: [
-            ListTile(
-              title: const Text("Account Balances"),
-              onTap: () {
-                //action on press
-              },
-            ),
-
-            ListTile(
-              title: const Text("Bank Payments"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Bank Receipts"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Transfers"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Reconcile"),
-              onTap: () {
-                //action on press
-              },
-            ),
-
-            //more child menu
+            drawerTile(title: "Account Balances", index: 1, context: context),
+            drawerTile(title: "Bank Payments", index: 2, context: context),
+            drawerTile(title: "Bank Receipts", index: 3, context: context),
+            drawerTile(title: "Transfers", index: 4, context: context),
+            drawerTile(title: "Reconcile", index: 5, context: context),
           ],
         ),
         ExpansionTile(
@@ -69,45 +86,12 @@ class NavigationDrawerWidget extends StatelessWidget {
           leading: const Icon(Icons.attach_money), //add icon
           childrenPadding: const EdgeInsets.only(left: 60), //children padding
           children: [
-            ListTile(
-              title: const Text("Invoices"),
-              onTap: () {
-                //action on press
-              },
-            ),
-
-            ListTile(
-              title: const Text("Receipts"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Sales All"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Transfers"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Orders"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Customers"),
-              onTap: () {
-                //action on press
-              },
-            ),
-
-            //more child menu
+            drawerTile(title: "Invoices", index: 6, context: context),
+            drawerTile(title: "Recepits", index: 7, context: context),
+            drawerTile(title: "Sales All", index: 8, context: context),
+            drawerTile(title: "Transfers", index: 9, context: context),
+            drawerTile(title: "Orders", index: 10, context: context),
+            drawerTile(title: "Customers", index: 11, context: context),
           ],
         ),
         ExpansionTile(
@@ -115,39 +99,11 @@ class NavigationDrawerWidget extends StatelessWidget {
           leading: const Icon(Icons.money_outlined), //add icon
           childrenPadding: const EdgeInsets.only(left: 60), //children padding
           children: [
-            ListTile(
-              title: const Text("Bills"),
-              onTap: () {
-                //action on press
-              },
-            ),
-
-            ListTile(
-              title: const Text("Payments"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Purchases All"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("PO"),
-              onTap: () {
-                //action on press
-              },
-            ),
-            ListTile(
-              title: const Text("Suppliers"),
-              onTap: () {
-                //action on press
-              },
-            ),
-
-            //more child menu
+            drawerTile(title: "Bills", index: 12, context: context),
+            drawerTile(title: "Payments", index: 13, context: context),
+            drawerTile(title: "Purchase All", index: 14, context: context),
+            drawerTile(title: "PO", index: 15, context: context),
+            drawerTile(title: "Suppliers", index: 16, context: context),
           ],
         ),
         ExpansionTile(
@@ -155,43 +111,26 @@ class NavigationDrawerWidget extends StatelessWidget {
           leading: const Icon(Icons.inventory_outlined), //add icon
           childrenPadding: const EdgeInsets.only(left: 60), //children padding
           children: [
-            ListTile(
-              title: const Text("Products"),
-              onTap: () {
-                //action on press
-              },
-            ),
-
-            //more child menu
+            drawerTile(title: "Products", index: 17, context: context),
           ],
         ),
-        ListTile(
-          leading: const Icon(Icons.pie_chart),
-          title: const Text('Projects'),
-          onTap: () {},
-        ),
-        ListTile(
-          leading: const Icon(Icons.report),
-          title: const Text('Reports'),
-          onTap: () {},
-        ),
-        ListTile(
-          leading: const Icon(Icons.analytics),
-          title: const Text('Analytical Reports'),
-          onTap: () {},
-        ),
-        ListTile(
-          leading: const Icon(Icons.token_outlined),
-          title: const Text('Generate Token'),
-          onTap: () {
-            Navigator.of(context).pop();
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const GenerateToken(),
-                ));
-          },
-        ),
+        drawerTile(
+            title: "Projects",
+            index: 18,
+            context: context,
+            icon: Icons.pie_chart),
+        drawerTile(
+            title: "Reports", index: 19, context: context, icon: Icons.report),
+        drawerTile(
+            title: "Analytical Reports",
+            index: 1,
+            context: context,
+            icon: Icons.analytics),
+        drawerTile(
+            title: "Generate Token",
+            index: 20,
+            context: context,
+            icon: Icons.token_outlined),
       ]),
     );
   }
