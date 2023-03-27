@@ -30,7 +30,46 @@ class _CustomersState extends State<Customers> {
   final TextEditingController _postalCodeController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
 
+//Tax Info
+  final TextEditingController _ntnNumberController = TextEditingController();
+  final TextEditingController _salesTaxController = TextEditingController();
+  final TextEditingController _cnicController = TextEditingController();
+
+  //Terms
+  final TextEditingController _paymentTermDaysController =
+      TextEditingController();
+  final TextEditingController _creditLimitController = TextEditingController();
+  final TextEditingController _openingDateController = TextEditingController();
+    final TextEditingController _openingBalanceController = TextEditingController();
+  final TextEditingController _discountController = TextEditingController();
+
+  //Notes
+  final TextEditingController _notesController = TextEditingController();
+
+  //Additional Fields
+  final TextEditingController _fieldAController = TextEditingController();
+  final TextEditingController _fieldBController = TextEditingController();
+  final TextEditingController _fieldCController = TextEditingController();
+  final TextEditingController _fieldDController = TextEditingController();
+  final TextEditingController _field1Controller = TextEditingController();
+  final TextEditingController _field2Controller = TextEditingController();
+  final TextEditingController _field3Controller = TextEditingController();
+  final TextEditingController _field4Controller = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
+
+  Widget createTextFormField(
+      TextEditingController textController, String? label, String? hintText) {
+    return TextFormField(
+      controller: textController,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        border: const OutlineInputBorder(),
+        hintText: hintText,
+        labelText: label,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +79,7 @@ class _CustomersState extends State<Customers> {
         appBar: AppBar(title: const Text("Customers")),
         drawer: const NavigationDrawerWidget(),
         body: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(15.0),
             child: Form(
               key: formKey,
               child: ListView(
@@ -51,8 +90,12 @@ class _CustomersState extends State<Customers> {
                         flex: 2,
                         child: TextFormField(
                           controller: _businessNameController,
-                          // initialValue: widget.contactModel.name,
-
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return 'This Field Cannot be Empty';
+                            }
+                            return null;
+                          },
                           decoration: const InputDecoration(
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 12),
@@ -64,20 +107,9 @@ class _CustomersState extends State<Customers> {
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: _titleController,
-                          // initialValue: widget.contactModel.name,
-
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "Title",
-                            labelText: "Title",
-                          ),
-                        ),
-                      )
+                          flex: 1,
+                          child: createTextFormField(
+                              _titleController, "Title", "Title"))
                     ],
                   ),
                   const SizedBox(
@@ -86,38 +118,16 @@ class _CustomersState extends State<Customers> {
                   Row(
                     children: [
                       Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: _firstNameController,
-                          // initialValue: widget.contactModel.name,
-
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "First Name",
-                            labelText: "First Name",
-                          ),
-                        ),
-                      ),
+                          flex: 1,
+                          child: createTextFormField(_firstNameController,
+                              "First Name", "First Name")),
                       const SizedBox(
                         width: 10,
                       ),
                       Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: _lastNameController,
-                          // initialValue: widget.contactModel.name,
-
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "Last Name",
-                            labelText: "Last Name",
-                          ),
-                        ),
-                      ),
+                          flex: 1,
+                          child: createTextFormField(
+                              _lastNameController, "Last Name", "Last Name")),
                     ],
                   ),
                   const SizedBox(
@@ -126,95 +136,41 @@ class _CustomersState extends State<Customers> {
                   Row(
                     children: [
                       Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: _emailController,
-                          // initialValue: widget.contactModel.name,
-
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "Email",
-                            labelText: "Email",
-                          ),
-                        ),
-                      ),
+                          flex: 1,
+                          child: createTextFormField(
+                              _emailController, "Email", "Email")),
                       const SizedBox(
                         width: 10,
                       ),
                       Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: _phoneController,
-                          // initialValue: widget.contactModel.name,
-
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "Phone",
-                            labelText: "Phone",
-                          ),
-                        ),
-                      ),
+                          flex: 1,
+                          child: createTextFormField(
+                              _phoneController, 'Phone', 'Phone')),
                     ],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Expanded(
-                    flex: 1,
-                    child: TextFormField(
-                      controller: _accountNoController,
-                      // initialValue: widget.contactModel.name,
-
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                        border: OutlineInputBorder(),
-                        hintText: "Account No",
-                        labelText: "Account No",
-                      ),
-                    ),
-                  ),
+                      flex: 1,
+                      child: createTextFormField(
+                          _accountNoController, "Account No", "Account No")),
                   const SizedBox(
                     height: 10,
                   ),
                   Row(
                     children: [
                       Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: _websiteController,
-                          // initialValue: widget.contactModel.name,
-
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "Website",
-                            labelText: "Website",
-                          ),
-                        ),
-                      ),
+                          flex: 1,
+                          child: createTextFormField(
+                              _websiteController, "Website", "Website")),
                       const SizedBox(
                         width: 10,
                       ),
                       Expanded(
-                        flex: 1,
-                        child: TextFormField(
-                          controller: _mobileController,
-                          // initialValue: widget.contactModel.name,
-
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "Mobile",
-                            labelText: "Mobile",
-                          ),
-                        ),
-                      ),
+                          flex: 1,
+                          child: createTextFormField(
+                              _mobileController, "Mobile", "Mobile")),
                     ],
                   ),
                   const SizedBox(
@@ -248,146 +204,149 @@ class _CustomersState extends State<Customers> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 300,
-                    child: TabBarView(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Material(
+                    elevation: 5,
+                    child: SizedBox(
+                      height: 300,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TabBarView(
                           children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    controller: _billingAddressController,
-                                    // initialValue: widget.contactModel.name,
-
-                                    decoration: const InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      border: OutlineInputBorder(),
-                                      hintText: "Billing Address",
-                                      labelText: "Billing Address",
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _billingAddressController,
+                                            "Billing Address",
+                                            "Billing Address")),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _cityController, "City", "City")),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
-                                  ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _provinceController,
+                                            "Province",
+                                            "Province")),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _postalCodeController,
+                                            "Postal Code",
+                                            "Postal Code")),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _countryController,
+                                            "Country",
+                                            "Country")),
+                                  ],
                                 ),
                               ],
                             ),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    controller: _cityController,
-                                    // initialValue: widget.contactModel.name,
-
-                                    decoration: const InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      border: OutlineInputBorder(),
-                                      hintText: "City",
-                                      labelText: "City",
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _ntnNumberController,
+                                            "NTN Number",
+                                            "NTN Number")),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
-                                  ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _salesTaxController,
+                                            "Sales Tax Number",
+                                            "Sales Tax Number")),
+                                  ],
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    controller: _provinceController,
-                                    // initialValue: widget.contactModel.name,
-
-                                    decoration: const InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      border: OutlineInputBorder(),
-                                      hintText: "Province",
-                                      labelText: "Province",
-                                    ),
-                                  ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _cnicController, "CNIC", "CNIC")),
+                                  ],
                                 ),
                               ],
                             ),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    controller: _postalCodeController,
-                                    // initialValue: widget.contactModel.name,
-
-                                    decoration: const InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      border: OutlineInputBorder(),
-                                      hintText: "Postal Code",
-                                      labelText: "Postal Code",
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _paymentTermDaysController,
+                                            "Payment Term Days",
+                                            "0")),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
-                                  ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _creditLimitController,
+                                            "Credit Limit",
+                                            "0.00")),
+                                  ],
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    controller: _countryController,
-                                    // initialValue: widget.contactModel.name,
-
-                                    decoration: const InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      border: OutlineInputBorder(),
-                                      hintText: "Country",
-                                      labelText: "Country",
-                                    ),
-                                  ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _openingDateController,
+                                            "Opening Date",
+                                            "27/03/2023")),
+                                          
+                                  ],
                                 ),
                               ],
+                            ),
+                            Container(
+                              child: const Center(
+                                child: Text(
+                                  'Notes',
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: const Center(
+                                child: Text(
+                                  'Additional Fields',
+                                ),
+                              ),
                             ),
                           ],
                         ),
-
-                        // second tab bar viiew widget
-                        Container(
-                         
-                          child: const Center(
-                            child: Text(
-                              'Tax Info',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          
-                          child: const Center(
-                            child: Text(
-                              'Terms',
-                            ),
-                          ),
-                        ),
-                        Container(
-                        
-                          child: const Center(
-                            child: Text(
-                              'Notes',
-                            ),
-                          ),
-                        ),
-                        Container(
-                        
-                          child: const Center(
-                            child: Text(
-                              'Additional Fields',
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ],
