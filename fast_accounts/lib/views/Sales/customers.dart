@@ -40,7 +40,8 @@ class _CustomersState extends State<Customers> {
       TextEditingController();
   final TextEditingController _creditLimitController = TextEditingController();
   final TextEditingController _openingDateController = TextEditingController();
-    final TextEditingController _openingBalanceController = TextEditingController();
+  final TextEditingController _openingBalanceController =
+      TextEditingController();
   final TextEditingController _discountController = TextEditingController();
 
   //Notes
@@ -212,6 +213,7 @@ class _CustomersState extends State<Customers> {
                         padding: const EdgeInsets.all(8.0),
                         child: TabBarView(
                           children: [
+                            //Address Info Page
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -263,6 +265,7 @@ class _CustomersState extends State<Customers> {
                                 ),
                               ],
                             ),
+                            //Tax Info Page
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -295,6 +298,7 @@ class _CustomersState extends State<Customers> {
                                 ),
                               ],
                             ),
+                            //Terms Page
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -325,24 +329,120 @@ class _CustomersState extends State<Customers> {
                                             _openingDateController,
                                             "Opening Date",
                                             "27/03/2023")),
-                                          
                                   ],
                                 ),
                               ],
                             ),
-                            Container(
-                              child: const Center(
-                                child: Text(
-                                  'Notes',
+                            //Notes Page
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            controller: _notesController,
+                                           
+                                            minLines: 5,
+                                            maxLines: 7,
+                                            decoration: const InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 12),
+                                              border: OutlineInputBorder(),
+                                              hintText: "Notes",
+                                              labelText: "Notes",
+                                            ),
+                                          ),
+                                        )),
+                                  ],
                                 ),
-                              ),
+                              ],
                             ),
-                            Container(
-                              child: const Center(
-                                child: Text(
-                                  'Additional Fields',
+                            //Additional Fields Page
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _field1Controller,
+                                            "Field 1",
+                                            "Field 1")),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _fieldAController,
+                                            "Field A",
+                                            "Field A")),
+                                  ],
                                 ),
-                              ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _field2Controller,
+                                            "Field 2",
+                                            "Field 2")),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _fieldBController,
+                                            "Field B",
+                                            "Field B")),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _field3Controller,
+                                            "Field 3",
+                                            "Field 3")),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _fieldCController,
+                                            "Field C",
+                                            "Field C")),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _field4Controller,
+                                            "Field 4",
+                                            "Field 4")),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            _fieldDController,
+                                            "Field D",
+                                            "Field D")),
+                                  ],
+                                ),
+                              ],
                             ),
                           ],
                         ),
