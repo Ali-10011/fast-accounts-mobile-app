@@ -1,6 +1,7 @@
 import 'package:fast_accounts/services/generate_token.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_accounts/widgets/navigation_drawer.dart';
+import 'package:fast_accounts/secret.dart';
 
 class GenerateToken extends StatefulWidget {
   const GenerateToken({super.key});
@@ -10,7 +11,7 @@ class GenerateToken extends StatefulWidget {
 }
 
 class _GenerateTokenState extends State<GenerateToken> {
-  late String? token;
+  
 
   //Loading Dialog
   showLoaderDialog(BuildContext context) {
