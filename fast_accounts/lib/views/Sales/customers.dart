@@ -4,8 +4,14 @@ import 'package:fast_accounts/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_accounts/widgets/custom_snackbar.dart';
 import 'package:fast_accounts/widgets/loading_dialog.dart';
+import 'package:intl/intl.dart';
 
 import '../../secret.dart';
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
 
 class Customers extends StatefulWidget {
   const Customers({super.key});
@@ -63,8 +69,31 @@ class _CustomersState extends State<Customers> {
   final TextEditingController _field3Controller = TextEditingController();
   final TextEditingController _field4Controller = TextEditingController();
 
+  //Global Form Key
   final formKey = GlobalKey<FormState>();
-  //Loading Dialog
+
+  //Default Date
+  String selectedDate = DateFormat('yyyy-MM-dd')
+      .format(DateTime.parse(DateTime.now().toString()));
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null) {
+      setState(() {
+        selectedDate =
+            DateFormat('yyyy-MM-dd').format(DateTime.parse(picked.toString()));
+        _openingDateController.text = selectedDate;
+        _openingDateController.selection = TextSelection.fromPosition(
+            TextPosition(
+                offset: _openingDateController.text.length,
+                affinity: TextAffinity.upstream));
+      });
+    }
+  }
 
   void _addCustomer() async {
     Customer customer = Customer(
@@ -75,7 +104,9 @@ class _CustomersState extends State<Customers> {
         email: _emailController.value.text,
         phone: _phoneController.value.text,
         mobile: _phoneController.value.text,
-        accountNo:(isSupplier == true) ?"${_accountNoController.value.text}S": _accountNoController.value.text,
+        accountNo: (isSupplier == true)
+            ? "${_accountNoController.value.text}S"
+            : _accountNoController.value.text,
         website: _websiteController.value.text,
         billingAddress: _billingAddressController.value.text,
         city: _cityController.value.text,
@@ -87,7 +118,7 @@ class _CustomersState extends State<Customers> {
         cnic: _cnicController.value.text,
         paymentTerms: _paymentTermDaysController.value.text,
         creditLimit: _creditLimitController.value.text,
-        openingDate: _openingDateController.value.text,
+        openingDate: selectedDate,
         openingBalance: _openingBalanceController.value.text,
         discount: _discountController.value.text,
         isSupplier: (isSupplier == true) ? "yes" : "no");
@@ -423,12 +454,21 @@ class _CustomersState extends State<Customers> {
                                   children: [
                                     Expanded(
                                         flex: 1,
-                                        child: createTextFormField(
-                                            textController:
-                                                _openingDateController,
-                                            label: "Opening Date",
-                                            hintText: "DD/MM/YYYY",
-                                            keyboard: TextInputType.datetime)),
+                                        child: TextFormField(
+                                          onTap: () {
+                                            _selectDate(context);
+                                          },
+                                          focusNode: AlwaysDisabledFocusNode(),
+                                          controller: _openingDateController,
+                                          decoration: const InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal: 12),
+                                            border: OutlineInputBorder(),
+                                            hintText: "YYYY-MM-DD",
+                                            labelText: "Opening Date",
+                                          ),
+                                        )),
                                     const SizedBox(
                                       width: 10,
                                     ),
@@ -596,11 +636,13 @@ class _CustomersState extends State<Customers> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton.icon(
                         onPressed: () {
-                          if (token == null )
-                          {
-                            roundSnackbar(buildContext: context, snackbarColor: Colors.red, snackbarMessage: "Get a Token First !", textColor: Colors.white);
+                          if (token == null) {
+                            roundSnackbar(
+                                buildContext: context,
+                                snackbarColor: Colors.red,
+                                snackbarMessage: "Get a Token First !",
+                                textColor: Colors.white);
                             return;
-
                           }
                           if (formKey.currentState!.validate()) {
                             showLoaderDialog(context);
@@ -611,8 +653,8 @@ class _CustomersState extends State<Customers> {
                         icon: const Icon(Icons.add),
                         label: const Text("Add New"),
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(const Color(0xFF3C835E)))),
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xFF3C835E)))),
                   )
                 ],
               ),
