@@ -1,7 +1,11 @@
-// ignore_for_file: avoid_unnecessary_containers
-
+import 'package:fast_accounts/models/customer.dart';
+import 'package:fast_accounts/services/add_customer.dart';
 import 'package:fast_accounts/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:fast_accounts/widgets/custom_snackbar.dart';
+import 'package:fast_accounts/widgets/loading_dialog.dart';
+
+import '../../secret.dart';
 
 class Customers extends StatefulWidget {
   const Customers({super.key});
@@ -43,6 +47,8 @@ class _CustomersState extends State<Customers> {
   final TextEditingController _openingBalanceController =
       TextEditingController();
   final TextEditingController _discountController = TextEditingController();
+  bool isSupplier = false;
+  bool isFiler = false;
 
   //Notes
   final TextEditingController _notesController = TextEditingController();
@@ -58,10 +64,65 @@ class _CustomersState extends State<Customers> {
   final TextEditingController _field4Controller = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
+  //Loading Dialog
+
+  void _addCustomer() async {
+    Customer customer = Customer(
+        businessName: _businessNameController.value.text,
+        title: _titleController.value.text,
+        firstName: _firstNameController.value.text,
+        lastName: _lastNameController.value.text,
+        email: _emailController.value.text,
+        phone: _phoneController.value.text,
+        mobile: _phoneController.value.text,
+        accountNo:(isSupplier == true) ?"${_accountNoController.value.text}S": _accountNoController.value.text,
+        website: _websiteController.value.text,
+        billingAddress: _billingAddressController.value.text,
+        city: _cityController.value.text,
+        province: _provinceController.value.text,
+        postalCode: _postalCodeController.value.text,
+        country: _countryController.value.text,
+        ntnNumber: _ntnNumberController.value.text,
+        salesTaxNumber: _salesTaxController.value.text,
+        cnic: _cnicController.value.text,
+        paymentTerms: _paymentTermDaysController.value.text,
+        creditLimit: _creditLimitController.value.text,
+        openingDate: _openingDateController.value.text,
+        openingBalance: _openingBalanceController.value.text,
+        discount: _discountController.value.text,
+        isSupplier: (isSupplier == true) ? "yes" : "no");
+    String message;
+
+    try {
+      message = await addCustomer(customer);
+      if (!mounted) return;
+    } on Exception catch (e) {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      roundSnackbar(
+          buildContext: context,
+          snackbarColor: Colors.red,
+          snackbarMessage: e.toString(),
+          textColor: Colors.white);
+
+      return;
+    }
+
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+    roundSnackbar(
+        buildContext: context,
+        snackbarColor: Colors.green,
+        snackbarMessage: message,
+        textColor: Colors.white);
+  }
 
   Widget createTextFormField(
-      TextEditingController textController, String? label, String? hintText) {
+      {required TextEditingController textController,
+      String? label,
+      String? hintText,
+      TextInputType? keyboard}) {
     return TextFormField(
+      keyboardType: keyboard ?? TextInputType.text,
       controller: textController,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(horizontal: 12),
@@ -84,6 +145,7 @@ class _CustomersState extends State<Customers> {
             child: Form(
               key: formKey,
               child: ListView(
+                shrinkWrap: true,
                 children: [
                   Row(
                     children: [
@@ -110,25 +172,9 @@ class _CustomersState extends State<Customers> {
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
-                              _titleController, "Title", "Title"))
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(_firstNameController,
-                              "First Name", "First Name")),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              _lastNameController, "Last Name", "Last Name")),
+                              textController: _titleController,
+                              label: "Title",
+                              hintText: "Title"))
                     ],
                   ),
                   const SizedBox(
@@ -139,23 +185,20 @@ class _CustomersState extends State<Customers> {
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
-                              _emailController, "Email", "Email")),
+                              textController: _firstNameController,
+                              label: "First Name",
+                              hintText: "First Name")),
                       const SizedBox(
                         width: 10,
                       ),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
-                              _phoneController, 'Phone', 'Phone')),
+                              textController: _lastNameController,
+                              label: "Last Name",
+                              hintText: "Last Name")),
                     ],
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: createTextFormField(
-                          _accountNoController, "Account No", "Account No")),
                   const SizedBox(
                     height: 10,
                   ),
@@ -164,14 +207,56 @@ class _CustomersState extends State<Customers> {
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
-                              _websiteController, "Website", "Website")),
+                              textController: _emailController,
+                              label: "Email",
+                              hintText: "Email")),
                       const SizedBox(
                         width: 10,
                       ),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
-                              _mobileController, "Mobile", "Mobile")),
+                              textController: _phoneController,
+                              label: 'Phone',
+                              hintText: 'Phone',
+                              keyboard: TextInputType.phone)),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: createTextFormField(
+                              textController: _accountNoController,
+                              label: "Account No",
+                              hintText: "Account No",
+                              keyboard: TextInputType.phone)),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: createTextFormField(
+                              textController: _websiteController,
+                              label: "Website",
+                              hintText: "Website")),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: createTextFormField(
+                              textController: _mobileController,
+                              label: "Mobile",
+                              hintText: "Mobile",
+                              keyboard: TextInputType.phone)),
                     ],
                   ),
                   const SizedBox(
@@ -222,9 +307,10 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _billingAddressController,
-                                            "Billing Address",
-                                            "Billing Address")),
+                                            textController:
+                                                _billingAddressController,
+                                            label: "Billing Address",
+                                            hintText: "Billing Address")),
                                   ],
                                 ),
                                 Row(
@@ -232,16 +318,18 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _cityController, "City", "City")),
+                                            textController: _cityController,
+                                            label: "City",
+                                            hintText: "City")),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _provinceController,
-                                            "Province",
-                                            "Province")),
+                                            textController: _provinceController,
+                                            label: "Province",
+                                            hintText: "Province")),
                                   ],
                                 ),
                                 Row(
@@ -249,18 +337,20 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _postalCodeController,
-                                            "Postal Code",
-                                            "Postal Code")),
+                                            textController:
+                                                _postalCodeController,
+                                            label: "Postal Code",
+                                            hintText: "Postal Code",
+                                            keyboard: TextInputType.number)),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _countryController,
-                                            "Country",
-                                            "Country")),
+                                            textController: _countryController,
+                                            label: "Country",
+                                            hintText: "Country")),
                                   ],
                                 ),
                               ],
@@ -274,18 +364,19 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _ntnNumberController,
-                                            "NTN Number",
-                                            "NTN Number")),
+                                            textController:
+                                                _ntnNumberController,
+                                            label: "NTN Number",
+                                            hintText: "NTN Number")),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _salesTaxController,
-                                            "Sales Tax Number",
-                                            "Sales Tax Number")),
+                                            textController: _salesTaxController,
+                                            label: "Sales Tax Number",
+                                            hintText: "Sales Tax Number")),
                                   ],
                                 ),
                                 Row(
@@ -293,7 +384,10 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _cnicController, "CNIC", "CNIC")),
+                                            textController: _cnicController,
+                                            label: "CNIC",
+                                            hintText: "CNIC",
+                                            keyboard: TextInputType.number)),
                                   ],
                                 ),
                               ],
@@ -307,18 +401,22 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _paymentTermDaysController,
-                                            "Payment Term Days",
-                                            "0")),
+                                            textController:
+                                                _paymentTermDaysController,
+                                            label: "Payment Term Days",
+                                            hintText: "0",
+                                            keyboard: TextInputType.number)),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _creditLimitController,
-                                            "Credit Limit",
-                                            "0.00")),
+                                            textController:
+                                                _creditLimitController,
+                                            label: "Credit Limit",
+                                            hintText: "0.00",
+                                            keyboard: TextInputType.number)),
                                   ],
                                 ),
                                 Row(
@@ -326,9 +424,58 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _openingDateController,
-                                            "Opening Date",
-                                            "27/03/2023")),
+                                            textController:
+                                                _openingDateController,
+                                            label: "Opening Date",
+                                            hintText: "DD/MM/YYYY",
+                                            keyboard: TextInputType.datetime)),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                        flex: 1,
+                                        child: createTextFormField(
+                                            textController:
+                                                _openingBalanceController,
+                                            label: "Opening Balance",
+                                            hintText: "0.00",
+                                            keyboard: TextInputType.number)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: createTextFormField(
+                                          textController: _discountController,
+                                          label: "Discount",
+                                          hintText: "0.00",
+                                          keyboard: TextInputType.number),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("Filer: "),
+                                    Checkbox(
+                                      value: isFiler,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          isFiler = value!;
+                                        });
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("Supplier: "),
+                                    Checkbox(
+                                      value: isSupplier,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          isSupplier = value!;
+                                        });
+                                      },
+                                    ),
                                   ],
                                 ),
                               ],
@@ -341,21 +488,17 @@ class _CustomersState extends State<Customers> {
                                   children: [
                                     Expanded(
                                         flex: 1,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            controller: _notesController,
-                                           
-                                            minLines: 5,
-                                            maxLines: 7,
-                                            decoration: const InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 12),
-                                              border: OutlineInputBorder(),
-                                              hintText: "Notes",
-                                              labelText: "Notes",
-                                            ),
+                                        child: TextFormField(
+                                          controller: _notesController,
+                                          minLines: 5,
+                                          maxLines: 7,
+                                          decoration: const InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal: 12),
+                                            border: OutlineInputBorder(),
+                                            hintText: "Notes",
+                                            labelText: "Notes",
                                           ),
                                         )),
                                   ],
@@ -371,18 +514,18 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _field1Controller,
-                                            "Field 1",
-                                            "Field 1")),
+                                            textController: _field1Controller,
+                                            label: "Field 1",
+                                            hintText: "Field 1")),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _fieldAController,
-                                            "Field A",
-                                            "Field A")),
+                                            textController: _fieldAController,
+                                            label: "Field A",
+                                            hintText: "Field A")),
                                   ],
                                 ),
                                 Row(
@@ -390,18 +533,18 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _field2Controller,
-                                            "Field 2",
-                                            "Field 2")),
+                                            textController: _field2Controller,
+                                            label: "Field 2",
+                                            hintText: "Field 2")),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _fieldBController,
-                                            "Field B",
-                                            "Field B")),
+                                            textController: _fieldBController,
+                                            label: "Field B",
+                                            hintText: "Field B")),
                                   ],
                                 ),
                                 Row(
@@ -409,18 +552,18 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _field3Controller,
-                                            "Field 3",
-                                            "Field 3")),
+                                            textController: _field3Controller,
+                                            label: "Field 3",
+                                            hintText: "Field 3")),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _fieldCController,
-                                            "Field C",
-                                            "Field C")),
+                                            textController: _fieldCController,
+                                            label: "Field C",
+                                            hintText: "Field C")),
                                   ],
                                 ),
                                 Row(
@@ -428,18 +571,18 @@ class _CustomersState extends State<Customers> {
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _field4Controller,
-                                            "Field 4",
-                                            "Field 4")),
+                                            textController: _field4Controller,
+                                            label: "Field 4",
+                                            hintText: "Field 4")),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     Expanded(
                                         flex: 1,
                                         child: createTextFormField(
-                                            _fieldDController,
-                                            "Field D",
-                                            "Field D")),
+                                            textController: _fieldDController,
+                                            label: "Field D",
+                                            hintText: "Field D")),
                                   ],
                                 ),
                               ],
@@ -449,6 +592,28 @@ class _CustomersState extends State<Customers> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton.icon(
+                        onPressed: () {
+                          if (token == null )
+                          {
+                            roundSnackbar(buildContext: context, snackbarColor: Colors.red, snackbarMessage: "Get a Token First !", textColor: Colors.white);
+                            return;
+
+                          }
+                          if (formKey.currentState!.validate()) {
+                            showLoaderDialog(context);
+                            _addCustomer();
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          }
+                        },
+                        icon: const Icon(Icons.add),
+                        label: const Text("Add New"),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(const Color(0xFF3C835E)))),
+                  )
                 ],
               ),
             )),
