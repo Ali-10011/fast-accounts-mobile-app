@@ -627,7 +627,16 @@ class _CustomersState extends State<Customers> {
         openingDate: selectedDate,
         openingBalance: _openingBalanceController.value.text,
         discount: _discountController.value.text,
-        isSupplier: (isSupplier == true) ? "yes" : "no");
+        isSupplier: (isSupplier == true) ? "yes" : "no",
+        notes: _notesController.value.text,
+        field1: _field1Controller.value.text,
+        field2: _field2Controller.value.text,
+        field3: _field3Controller.value.text,
+        field4: _field4Controller.value.text,
+        fieldA: _fieldAController.value.text,
+        fieldB: _fieldBController.value.text,
+        fieldC: _fieldCController.value.text,
+        fieldD: _fieldDController.value.text);
     String message;
 
     try {
