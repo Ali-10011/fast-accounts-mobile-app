@@ -46,7 +46,7 @@ class Customer {
     this.email,
     this.mobile,
     this.phone,
-    this.accountNo,
+    required this.accountNo,
     this.website,
     this.billingAddress,
     this.city,

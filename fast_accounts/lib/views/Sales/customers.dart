@@ -5,13 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fast_accounts/widgets/custom_snackbar.dart';
 import 'package:fast_accounts/widgets/loading_dialog.dart';
 import 'package:intl/intl.dart';
-
 import '../../secret.dart';
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
-}
 
 class Customers extends StatefulWidget {
   const Customers({super.key});
@@ -76,97 +70,6 @@ class _CustomersState extends State<Customers> {
   String selectedDate = DateFormat('yyyy-MM-dd')
       .format(DateTime.parse(DateTime.now().toString()));
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null) {
-      setState(() {
-        selectedDate =
-            DateFormat('yyyy-MM-dd').format(DateTime.parse(picked.toString()));
-        _openingDateController.text = selectedDate;
-        _openingDateController.selection = TextSelection.fromPosition(
-            TextPosition(
-                offset: _openingDateController.text.length,
-                affinity: TextAffinity.upstream));
-      });
-    }
-  }
-
-  void _addCustomer() async {
-    Customer customer = Customer(
-        businessName: _businessNameController.value.text,
-        title: _titleController.value.text,
-        firstName: _firstNameController.value.text,
-        lastName: _lastNameController.value.text,
-        email: _emailController.value.text,
-        phone: _phoneController.value.text,
-        mobile: _phoneController.value.text,
-        accountNo: (isSupplier == true)
-            ? "${_accountNoController.value.text}S"
-            : _accountNoController.value.text,
-        website: _websiteController.value.text,
-        billingAddress: _billingAddressController.value.text,
-        city: _cityController.value.text,
-        province: _provinceController.value.text,
-        postalCode: _postalCodeController.value.text,
-        country: _countryController.value.text,
-        ntnNumber: _ntnNumberController.value.text,
-        salesTaxNumber: _salesTaxController.value.text,
-        cnic: _cnicController.value.text,
-        paymentTerms: _paymentTermDaysController.value.text,
-        creditLimit: _creditLimitController.value.text,
-        openingDate: selectedDate,
-        openingBalance: _openingBalanceController.value.text,
-        discount: _discountController.value.text,
-        isSupplier: (isSupplier == true) ? "yes" : "no");
-    String message;
-
-    try {
-      message = await addCustomer(customer);
-      if (!mounted) return;
-    } on Exception catch (e) {
-      Navigator.of(context, rootNavigator: true).pop('dialog');
-      roundSnackbar(
-          buildContext: context,
-          snackbarColor: Colors.red,
-          snackbarMessage: e.toString(),
-          textColor: Colors.white);
-
-      return;
-    }
-
-    if (!mounted) return;
-    Navigator.of(context, rootNavigator: true).pop('dialog');
-    roundSnackbar(
-        buildContext: context,
-        snackbarColor: Colors.green,
-        snackbarMessage: message,
-        textColor: Colors.white);
-  }
-
-  Widget createTextFormField(
-      {required TextEditingController textController,
-      String? label,
-      String? hintText,
-      TextInputType? keyboard}) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-      child: TextFormField(
-        keyboardType: keyboard ?? TextInputType.text,
-        controller: textController,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-          border: const OutlineInputBorder(),
-          hintText: hintText,
-          labelText: label,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -181,9 +84,7 @@ class _CustomersState extends State<Customers> {
               child: Form(
                 key: formKey,
                 child: ListView(
-                 
                   physics: const BouncingScrollPhysics(),
-                 
                   children: [
                     Row(
                       children: [
@@ -254,11 +155,24 @@ class _CustomersState extends State<Customers> {
                       children: [
                         Expanded(
                             flex: 1,
-                            child: createTextFormField(
-                                textController: _accountNoController,
-                                label: "Account No",
-                                hintText: "Account No",
-                                keyboard: TextInputType.phone)),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              child: TextFormField(
+                                  controller: _accountNoController,
+                                  validator: (text) {
+                                    if (text == null || text.isEmpty) {
+                                      return 'This Field Cannot be Empty';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: const InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.symmetric(horizontal: 12),
+                                    border: OutlineInputBorder(),
+                                    hintText: "Account No",
+                                    labelText: "Account No",
+                                  )),
+                            )),
                       ],
                     ),
                     Row(
@@ -459,6 +373,13 @@ class _CustomersState extends State<Customers> {
                                                     AlwaysDisabledFocusNode(),
                                                 controller:
                                                     _openingDateController,
+                                                validator: (text) {
+                                                  if (text == null ||
+                                                      text.isEmpty) {
+                                                    return 'This Field Cannot be Empty';
+                                                  }
+                                                  return null;
+                                                },
                                                 decoration:
                                                     const InputDecoration(
                                                   contentPadding:
@@ -660,4 +581,100 @@ class _CustomersState extends State<Customers> {
       ),
     );
   }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null) {
+      setState(() {
+        selectedDate =
+            DateFormat('yyyy-MM-dd').format(DateTime.parse(picked.toString()));
+        _openingDateController.text = selectedDate;
+        _openingDateController.selection = TextSelection.fromPosition(
+            TextPosition(
+                offset: _openingDateController.text.length,
+                affinity: TextAffinity.upstream));
+      });
+    }
+  }
+
+  void _addCustomer() async {
+    Customer customer = Customer(
+        businessName: _businessNameController.value.text,
+        title: _titleController.value.text,
+        firstName: _firstNameController.value.text,
+        lastName: _lastNameController.value.text,
+        email: _emailController.value.text,
+        phone: _phoneController.value.text,
+        mobile: _phoneController.value.text,
+        accountNo: (isSupplier == true)
+            ? "${_accountNoController.value.text}S"
+            : _accountNoController.value.text,
+        website: _websiteController.value.text,
+        billingAddress: _billingAddressController.value.text,
+        city: _cityController.value.text,
+        province: _provinceController.value.text,
+        postalCode: _postalCodeController.value.text,
+        country: _countryController.value.text,
+        ntnNumber: _ntnNumberController.value.text,
+        salesTaxNumber: _salesTaxController.value.text,
+        cnic: _cnicController.value.text,
+        paymentTerms: _paymentTermDaysController.value.text,
+        creditLimit: _creditLimitController.value.text,
+        openingDate: selectedDate,
+        openingBalance: _openingBalanceController.value.text,
+        discount: _discountController.value.text,
+        isSupplier: (isSupplier == true) ? "yes" : "no");
+    String message;
+
+    try {
+      message = await addCustomer(customer);
+      if (!mounted) return;
+    } on Exception catch (e) {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+      roundSnackbar(
+          buildContext: context,
+          snackbarColor: Colors.red,
+          snackbarMessage: e.toString(),
+          textColor: Colors.white);
+
+      return;
+    }
+
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+    roundSnackbar(
+        buildContext: context,
+        snackbarColor: Colors.green,
+        snackbarMessage: message,
+        textColor: Colors.white);
+  }
+
+  Widget createTextFormField(
+      {required TextEditingController textController,
+      String? label,
+      String? hintText,
+      TextInputType? keyboard}) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+      child: TextFormField(
+        keyboardType: keyboard ?? TextInputType.text,
+        controller: textController,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          border: const OutlineInputBorder(),
+          hintText: hintText,
+          labelText: label,
+        ),
+      ),
+    );
+  }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }
