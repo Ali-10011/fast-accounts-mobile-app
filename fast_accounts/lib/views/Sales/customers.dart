@@ -152,14 +152,17 @@ class _CustomersState extends State<Customers> {
       String? label,
       String? hintText,
       TextInputType? keyboard}) {
-    return TextFormField(
-      keyboardType: keyboard ?? TextInputType.text,
-      controller: textController,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-        border: const OutlineInputBorder(),
-        hintText: hintText,
-        labelText: label,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+      child: TextFormField(
+        keyboardType: keyboard ?? TextInputType.text,
+        controller: textController,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+          border: const OutlineInputBorder(),
+          hintText: hintText,
+          labelText: label,
+        ),
       ),
     );
   }
@@ -168,370 +171,364 @@ class _CustomersState extends State<Customers> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 5,
-      child: Scaffold(
-        appBar: AppBar(title: const Text("Customers")),
-        drawer: const NavigationDrawerWidget(),
-        body: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Form(
-              key: formKey,
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: TextFormField(
-                          controller: _businessNameController,
-                          validator: (text) {
-                            if (text == null || text.isEmpty) {
-                              return 'This Field Cannot be Empty';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(),
-                            hintText: "Business Name",
-                            labelText: "Business Name",
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(title: const Text("Customers")),
+          drawer: const NavigationDrawerWidget(),
+          body: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Form(
+                key: formKey,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            child: TextFormField(
+                              controller: _businessNameController,
+                              validator: (text) {
+                                if (text == null || text.isEmpty) {
+                                  return 'This Field Cannot be Empty';
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 12),
+                                border: OutlineInputBorder(),
+                                hintText: "Business Name",
+                                labelText: "Business Name",
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _titleController,
+                                label: "Title",
+                                hintText: "Title"))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _firstNameController,
+                                label: "First Name",
+                                hintText: "First Name")),
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _lastNameController,
+                                label: "Last Name",
+                                hintText: "Last Name")),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _emailController,
+                                label: "Email",
+                                hintText: "Email")),
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _phoneController,
+                                label: 'Phone',
+                                hintText: 'Phone',
+                                keyboard: TextInputType.phone)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _accountNoController,
+                                label: "Account No",
+                                hintText: "Account No",
+                                keyboard: TextInputType.phone)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _websiteController,
+                                label: "Website",
+                                hintText: "Website")),
+                        Expanded(
+                            flex: 1,
+                            child: createTextFormField(
+                                textController: _mobileController,
+                                label: "Mobile",
+                                hintText: "Mobile",
+                                keyboard: TextInputType.phone)),
+                      ],
+                    ),
+                    Material(
+                      elevation: 0,
+                      child: SizedBox(
+                        height: 50,
+                        child: AppBar(
+                          elevation: 0,
+                          backgroundColor: Colors.white,
+                          bottom: const TabBar(
+                            indicatorColor: Colors.blue,
+                            indicator: BoxDecoration(color: Colors.blue),
+                            unselectedLabelColor: Colors.grey,
+                            labelColor: Colors.white,
+                            isScrollable: true,
+                            tabs: [
+                              Tab(
+                                text: "Address Info",
+                              ),
+                              Tab(
+                                text: "Tax Info",
+                              ),
+                              Tab(
+                                text: "Terms",
+                              ),
+                              Tab(
+                                text: "Notes",
+                              ),
+                              Tab(
+                                text: "Additional Fields",
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _titleController,
-                              label: "Title",
-                              hintText: "Title"))
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _firstNameController,
-                              label: "First Name",
-                              hintText: "First Name")),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _lastNameController,
-                              label: "Last Name",
-                              hintText: "Last Name")),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _emailController,
-                              label: "Email",
-                              hintText: "Email")),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _phoneController,
-                              label: 'Phone',
-                              hintText: 'Phone',
-                              keyboard: TextInputType.phone)),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _accountNoController,
-                              label: "Account No",
-                              hintText: "Account No",
-                              keyboard: TextInputType.phone)),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _websiteController,
-                              label: "Website",
-                              hintText: "Website")),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: createTextFormField(
-                              textController: _mobileController,
-                              label: "Mobile",
-                              hintText: "Mobile",
-                              keyboard: TextInputType.phone)),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 50,
-                    child: AppBar(
-                      backgroundColor: Colors.white,
-                      bottom: const TabBar(
-                        unselectedLabelColor: Colors.grey,
-                        labelColor: Colors.blue,
-                        isScrollable: true,
-                        tabs: [
-                          Tab(
-                            text: "Address Info",
-                          ),
-                          Tab(
-                            text: "Tax Info",
-                          ),
-                          Tab(
-                            text: "Terms",
-                          ),
-                          Tab(
-                            text: "Notes",
-                          ),
-                          Tab(
-                            text: "Additional Fields",
-                          ),
-                        ],
-                      ),
                     ),
-                  ),
-                  Material(
-                    elevation: 5,
-                    child: SizedBox(
-                      height: 300,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TabBarView(
-                          children: [
-                            //Address Info Page
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                      child: Material(
+                        elevation: 10,
+                        shadowColor: Colors.grey,
+                        child: Container(
+                          color: Colors.white,
+                          height: 300,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TabBarView(
                               children: [
-                                Row(
+                                //Address Info Page
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController:
-                                                _billingAddressController,
-                                            label: "Billing Address",
-                                            hintText: "Billing Address")),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _cityController,
-                                            label: "City",
-                                            hintText: "City")),
-                                    const SizedBox(
-                                      width: 10,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _billingAddressController,
+                                                label: "Billing Address",
+                                                hintText: "Billing Address")),
+                                      ],
                                     ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _provinceController,
-                                            label: "Province",
-                                            hintText: "Province")),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController:
-                                                _postalCodeController,
-                                            label: "Postal Code",
-                                            hintText: "Postal Code",
-                                            keyboard: TextInputType.number)),
-                                    const SizedBox(
-                                      width: 10,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController: _cityController,
+                                                label: "City",
+                                                hintText: "City")),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _provinceController,
+                                                label: "Province",
+                                                hintText: "Province")),
+                                      ],
                                     ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _countryController,
-                                            label: "Country",
-                                            hintText: "Country")),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            //Tax Info Page
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController:
-                                                _ntnNumberController,
-                                            label: "NTN Number",
-                                            hintText: "NTN Number")),
-                                    const SizedBox(
-                                      width: 10,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _postalCodeController,
+                                                label: "Postal Code",
+                                                hintText: "Postal Code",
+                                                keyboard:
+                                                    TextInputType.number)),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _countryController,
+                                                label: "Country",
+                                                hintText: "Country")),
+                                      ],
                                     ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _salesTaxController,
-                                            label: "Sales Tax Number",
-                                            hintText: "Sales Tax Number")),
                                   ],
                                 ),
-                                Row(
+                                //Tax Info Page
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _cnicController,
-                                            label: "CNIC",
-                                            hintText: "CNIC",
-                                            keyboard: TextInputType.number)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            //Terms Page
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController:
-                                                _paymentTermDaysController,
-                                            label: "Payment Term Days",
-                                            hintText: "0",
-                                            keyboard: TextInputType.number)),
-                                    const SizedBox(
-                                      width: 10,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _ntnNumberController,
+                                                label: "NTN Number",
+                                                hintText: "NTN Number")),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _salesTaxController,
+                                                label: "Sales Tax Number",
+                                                hintText: "Sales Tax Number")),
+                                      ],
                                     ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController:
-                                                _creditLimitController,
-                                            label: "Credit Limit",
-                                            hintText: "0.00",
-                                            keyboard: TextInputType.number)),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController: _cnicController,
+                                                label: "CNIC",
+                                                hintText: "CNIC",
+                                                keyboard:
+                                                    TextInputType.number)),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                                Row(
+                                //Terms Page
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: TextFormField(
-                                          onTap: () {
-                                            _selectDate(context);
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _paymentTermDaysController,
+                                                label: "Payment Term Days",
+                                                hintText: "0",
+                                                keyboard:
+                                                    TextInputType.number)),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _creditLimitController,
+                                                label: "Credit Limit",
+                                                hintText: "0.00",
+                                                keyboard:
+                                                    TextInputType.number)),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      5, 5, 5, 5),
+                                              child: TextFormField(
+                                                onTap: () {
+                                                  _selectDate(context);
+                                                },
+                                                focusNode:
+                                                    AlwaysDisabledFocusNode(),
+                                                controller:
+                                                    _openingDateController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 12),
+                                                  border: OutlineInputBorder(),
+                                                  hintText: "YYYY-MM-DD",
+                                                  labelText: "Opening Date",
+                                                ),
+                                              ),
+                                            )),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _openingBalanceController,
+                                                label: "Opening Balance",
+                                                hintText: "0.00",
+                                                keyboard:
+                                                    TextInputType.number)),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: createTextFormField(
+                                              textController:
+                                                  _discountController,
+                                              label: "Discount",
+                                              hintText: "0.00",
+                                              keyboard: TextInputType.number),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        const Text("Filer: "),
+                                        Checkbox(
+                                          value: isFiler,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              isFiler = value!;
+                                            });
                                           },
-                                          focusNode: AlwaysDisabledFocusNode(),
-                                          controller: _openingDateController,
-                                          decoration: const InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 12),
-                                            border: OutlineInputBorder(),
-                                            hintText: "YYYY-MM-DD",
-                                            labelText: "Opening Date",
-                                          ),
-                                        )),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController:
-                                                _openingBalanceController,
-                                            label: "Opening Balance",
-                                            hintText: "0.00",
-                                            keyboard: TextInputType.number)),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: createTextFormField(
-                                          textController: _discountController,
-                                          label: "Discount",
-                                          hintText: "0.00",
-                                          keyboard: TextInputType.number),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Text("Filer: "),
-                                    Checkbox(
-                                      value: isFiler,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          isFiler = value!;
-                                        });
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    const Text("Supplier: "),
-                                    Checkbox(
-                                      value: isSupplier,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          isSupplier = value!;
-                                        });
-                                      },
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        const Text("Supplier: "),
+                                        Checkbox(
+                                          value: isSupplier,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              isSupplier = value!;
+                                            });
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                            //Notes Page
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
+                                //Notes Page
+                                Column(
                                   children: [
                                     Expanded(
-                                        flex: 1,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
                                         child: TextFormField(
+                                          expands: true,
                                           controller: _notesController,
-                                          minLines: 5,
-                                          maxLines: 7,
+                                          minLines: null,
+                                          maxLines: null,
                                           decoration: const InputDecoration(
                                             contentPadding:
                                                 EdgeInsets.symmetric(
@@ -540,125 +537,124 @@ class _CustomersState extends State<Customers> {
                                             hintText: "Notes",
                                             labelText: "Notes",
                                           ),
-                                        )),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                //Additional Fields Page
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _field1Controller,
+                                                label: "Field 1",
+                                                hintText: "Field 1")),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _fieldAController,
+                                                label: "Field A",
+                                                hintText: "Field A")),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _field2Controller,
+                                                label: "Field 2",
+                                                hintText: "Field 2")),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _fieldBController,
+                                                label: "Field B",
+                                                hintText: "Field B")),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _field3Controller,
+                                                label: "Field 3",
+                                                hintText: "Field 3")),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _fieldCController,
+                                                label: "Field C",
+                                                hintText: "Field C")),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _field4Controller,
+                                                label: "Field 4",
+                                                hintText: "Field 4")),
+                                        Expanded(
+                                            flex: 1,
+                                            child: createTextFormField(
+                                                textController:
+                                                    _fieldDController,
+                                                label: "Field D",
+                                                hintText: "Field D")),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ],
                             ),
-                            //Additional Fields Page
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _field1Controller,
-                                            label: "Field 1",
-                                            hintText: "Field 1")),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _fieldAController,
-                                            label: "Field A",
-                                            hintText: "Field A")),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _field2Controller,
-                                            label: "Field 2",
-                                            hintText: "Field 2")),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _fieldBController,
-                                            label: "Field B",
-                                            hintText: "Field B")),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _field3Controller,
-                                            label: "Field 3",
-                                            hintText: "Field 3")),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _fieldCController,
-                                            label: "Field C",
-                                            hintText: "Field C")),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _field4Controller,
-                                            label: "Field 4",
-                                            hintText: "Field 4")),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                        flex: 1,
-                                        child: createTextFormField(
-                                            textController: _fieldDController,
-                                            label: "Field D",
-                                            hintText: "Field D")),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton.icon(
-                        onPressed: () {
-                          if (token == null) {
-                            roundSnackbar(
-                                buildContext: context,
-                                snackbarColor: Colors.red,
-                                snackbarMessage: "Get a Token First !",
-                                textColor: Colors.white);
-                            return;
-                          }
-                          if (formKey.currentState!.validate()) {
-                            showLoaderDialog(context);
-                            _addCustomer();
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          }
-                        },
-                        icon: const Icon(Icons.add),
-                        label: const Text("Add New"),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color(0xFF3C835E)))),
-                  )
-                ],
-              ),
-            )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                          onPressed: () {
+                            if (token == null) {
+                              roundSnackbar(
+                                  buildContext: context,
+                                  snackbarColor: Colors.red,
+                                  snackbarMessage: "Get a Token First !",
+                                  textColor: Colors.white);
+                              return;
+                            }
+                            if (formKey.currentState!.validate()) {
+                              showLoaderDialog(context);
+                              _addCustomer();
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            }
+                          },
+                          icon: const Icon(Icons.add),
+                          label: const Text("Add New"),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xFF3C835E)))),
+                    )
+                  ],
+                ),
+              )),
+        ),
       ),
     );
   }
