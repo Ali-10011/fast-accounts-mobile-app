@@ -71,6 +71,7 @@ class Customer {
       this.fieldB,
       this.fieldC,
       this.fieldD});
+      
   Map<dynamic, dynamic> toJson() => {
         "ApiToken": token,
         "BusinessName": businessName,

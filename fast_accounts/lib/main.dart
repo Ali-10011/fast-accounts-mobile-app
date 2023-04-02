@@ -1,4 +1,4 @@
-import 'package:fast_accounts/views/Sales/customers.dart';
+import 'package:fast_accounts/views/Sales/Customers/customers.dart';
 import 'package:flutter/material.dart';
 
 void main() {
