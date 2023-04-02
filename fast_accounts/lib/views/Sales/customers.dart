@@ -181,7 +181,9 @@ class _CustomersState extends State<Customers> {
               child: Form(
                 key: formKey,
                 child: ListView(
-                  shrinkWrap: true,
+                 
+                  physics: const BouncingScrollPhysics(),
+                 
                   children: [
                     Row(
                       children: [
