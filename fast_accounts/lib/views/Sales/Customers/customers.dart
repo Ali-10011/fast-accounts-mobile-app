@@ -1,14 +1,10 @@
-import 'dart:ffi';
-
 import 'package:fast_accounts/models/customer.dart';
 import 'package:fast_accounts/services/add_customer.dart';
 import 'package:fast_accounts/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_accounts/widgets/custom_snackbar.dart';
 import 'package:fast_accounts/widgets/loading_dialog.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'dart:math';
 import '../../../secret.dart';
 
 class Customers extends StatefulWidget {
@@ -370,27 +366,12 @@ class _CustomersState extends State<Customers> {
                   Row(
                     children: [
                       Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: TextFormField(
-                            keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d{0,1}\.?\d{0,2}')),
-                            ],
-                            controller: _paymentTermDaysController,
-                            decoration: const InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 12),
-                              border: OutlineInputBorder(),
-                              hintText: "Payment Term Days",
-                              labelText: "Payment Term Days",
-                            ),
-                          ),
-                        ),
-                      ),
+                          flex: 1,
+                          child: createTextFormField(
+                              textController: _paymentTermDaysController,
+                              label: "Payment Term Days",
+                              hintText: "0",
+                              keyboard: TextInputType.number)),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
@@ -440,34 +421,11 @@ class _CustomersState extends State<Customers> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: TextFormField(
-                            keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true),
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d{0,2}\.?\d{0,2}')),
-                            ],
-                            validator: (value) {
-                              if (value != null &&
-                                  !(value.contains('.')) &&
-                                  ((value.length > 3) ||
-                                      int.parse(value) > 100)) {
-                                return "Invalid Percentage";
-                              }
-                              return null;
-                            },
-                            controller: _discountController,
-                            decoration: const InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 12),
-                              border: OutlineInputBorder(),
-                              hintText: "0.00",
-                              labelText: "Discount",
-                            ),
-                          ),
-                        ),
+                        child: createTextFormField(
+                            textController: _discountController,
+                            label: "Discount",
+                            hintText: "0.00",
+                            keyboard: TextInputType.number),
                       ),
                       const SizedBox(
                         width: 10,
