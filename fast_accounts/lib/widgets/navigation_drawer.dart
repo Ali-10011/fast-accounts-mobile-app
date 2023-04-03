@@ -59,12 +59,18 @@ class NavigationDrawerWidget extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.w300,
                           color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.width * 0.050)),
+                          fontSize:
+                              ((MediaQuery.of(context).size.width * 0.050) > 50)
+                                  ? 50
+                                  : MediaQuery.of(context).size.width * 0.050)),
                   TextSpan(
                       text: 'ACCOUNTS',
                       style: TextStyle(
                           color: Colors.blue,
-                          fontSize: MediaQuery.of(context).size.width * 0.050)),
+                          fontSize:
+                              ((MediaQuery.of(context).size.width * 0.050) > 50)
+                                  ? 50
+                                  : MediaQuery.of(context).size.width * 0.050)),
                 ],
               ),
             )),
