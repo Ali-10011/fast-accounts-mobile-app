@@ -136,9 +136,13 @@ class _CustomersState extends State<Customers> {
                   return null;
                 },
                 decoration: const InputDecoration(
+                  suffixText: '*',
+                  suffixStyle: TextStyle(
+                    color: Colors.red,
+                  ),
                   contentPadding: EdgeInsets.symmetric(horizontal: 12),
                   border: OutlineInputBorder(),
-                  hintText: "Business Name",
+                  hintText: "e.g. 1st4connect",
                   labelText: "Business Name",
                 ),
               ),
@@ -149,7 +153,7 @@ class _CustomersState extends State<Customers> {
               child: createTextFormField(
                   textController: _titleController,
                   label: "Title",
-                  hintText: "Title"))
+                  hintText: "e.g. Mr."))
         ],
       ),
       Row(
@@ -159,13 +163,13 @@ class _CustomersState extends State<Customers> {
               child: createTextFormField(
                   textController: _firstNameController,
                   label: "First Name",
-                  hintText: "First Name")),
+                  hintText: "e.g. Waheed")),
           Expanded(
               flex: 1,
               child: createTextFormField(
                   textController: _lastNameController,
                   label: "Last Name",
-                  hintText: "Last Name")),
+                  hintText: "e.g. Anjum")),
         ],
       ),
       Row(
@@ -175,13 +179,13 @@ class _CustomersState extends State<Customers> {
               child: createTextFormField(
                   textController: _emailController,
                   label: "Email",
-                  hintText: "Email")),
+                  hintText: 'e.g.info@examplemail.com')),
           Expanded(
               flex: 1,
               child: createTextFormField(
                   textController: _phoneController,
                   label: 'Phone',
-                  hintText: 'Phone',
+                  hintText: 'e.g.042-111-008-339',
                   keyboard: TextInputType.phone)),
         ],
       ),
@@ -202,7 +206,11 @@ class _CustomersState extends State<Customers> {
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 12),
                       border: OutlineInputBorder(),
-                      hintText: "Account No",
+                      suffixText: '*',
+                      suffixStyle: TextStyle(
+                        color: Colors.red,
+                      ),
+                      hintText: "e.g. 1006",
                       labelText: "Account No",
                     )),
               )),
@@ -215,13 +223,13 @@ class _CustomersState extends State<Customers> {
               child: createTextFormField(
                   textController: _websiteController,
                   label: "Website",
-                  hintText: "Website")),
+                  hintText: "e.g.www.example.com")),
           Expanded(
             flex: 1,
             child: createTextFormField(
                 textController: _mobileController,
                 label: "Mobile",
-                hintText: "Mobile",
+                hintText: "e.g. 923084443779",
                 keyboard: TextInputType.phone,
                 format: r'^\d{0,11}'),
           ),
@@ -291,7 +299,8 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _billingAddressController,
                               label: "Billing Address",
-                              hintText: "Billing Address")),
+                              hintText:
+                                  "e.g.43-B Abubakar Block New Garden Town")),
                     ],
                   ),
                   Row(
@@ -301,13 +310,13 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _cityController,
                               label: "City",
-                              hintText: "City")),
+                              hintText: "e.g.Lahore")),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _provinceController,
                               label: "Province",
-                              hintText: "Province")),
+                              hintText: "e.g.Punjab")),
                     ],
                   ),
                   Row(
@@ -317,14 +326,14 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _postalCodeController,
                               label: "Postal Code",
-                              hintText: "Postal Code",
+                              hintText: "e.g.54000",
                               keyboard: TextInputType.number)),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _countryController,
                               label: "Country",
-                              hintText: "Country")),
+                              hintText: "e.g.Pakistan")),
                     ],
                   ),
                 ],
@@ -340,13 +349,13 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _ntnNumberController,
                               label: "NTN Number",
-                              hintText: "NTN Number")),
+                              hintText: "e.g.123456-7")),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _salesTaxController,
                               label: "Sales Tax Number",
-                              hintText: "Sales Tax Number")),
+                              hintText: "e.g.123456-7")),
                     ],
                   ),
                   Row(
@@ -356,7 +365,7 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _cnicController,
                               label: "CNIC",
-                              hintText: "CNIC",
+                              hintText: "e.g.12345-1234577-9",
                               keyboard: TextInputType.number)),
                     ],
                   ),
@@ -373,14 +382,14 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _paymentTermDaysController,
                               label: "Payment Term Days",
-                              hintText: "0",
+                              hintText: "e.g. 18",
                               keyboard: TextInputType.number)),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _creditLimitController,
                               label: "Credit Limit",
-                              hintText: "0.00",
+                              hintText: "e.g. 50000",
                               keyboard: TextInputType.number)),
                     ],
                   ),
@@ -416,7 +425,7 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _openingBalanceController,
                               label: "Opening Balance",
-                              hintText: "0.00",
+                              hintText: "e.g.1000",
                               keyboard: TextInputType.number)),
                     ],
                   ),
@@ -427,7 +436,7 @@ class _CustomersState extends State<Customers> {
                         child: createTextFormField(
                             textController: _discountController,
                             label: "Discount",
-                            hintText: "0.00",
+                            hintText: "e.g.10",
                             keyboard: TextInputType.number),
                       ),
                       const SizedBox(
@@ -472,7 +481,7 @@ class _CustomersState extends State<Customers> {
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 12),
                           border: OutlineInputBorder(),
-                          hintText: "Notes",
+                          hintText: "e.g.Important Contact",
                           labelText: "Notes",
                         ),
                       ),
@@ -491,13 +500,13 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _field1Controller,
                               label: "Field 1",
-                              hintText: "Field 1")),
+                              hintText: "e.g. FA")),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _fieldAController,
                               label: "Field A",
-                              hintText: "Field A")),
+                              hintText: "e.g. F A")),
                     ],
                   ),
                   Row(
@@ -507,13 +516,13 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _field2Controller,
                               label: "Field 2",
-                              hintText: "Field 2")),
+                              hintText: "e.g. FB")),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _fieldBController,
                               label: "Field B",
-                              hintText: "Field B")),
+                              hintText: "e.g. F B")),
                     ],
                   ),
                   Row(
@@ -523,13 +532,13 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _field3Controller,
                               label: "Field 3",
-                              hintText: "Field 3")),
+                              hintText: "e.g. FC")),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _fieldCController,
                               label: "Field C",
-                              hintText: "Field C")),
+                              hintText: "e.g. F C")),
                     ],
                   ),
                   Row(
@@ -539,13 +548,13 @@ class _CustomersState extends State<Customers> {
                           child: createTextFormField(
                               textController: _field4Controller,
                               label: "Field 4",
-                              hintText: "Field 4")),
+                              hintText: "e.g. FD")),
                       Expanded(
                           flex: 1,
                           child: createTextFormField(
                               textController: _fieldDController,
                               label: "Field D",
-                              hintText: "Field D")),
+                              hintText: "e.g. F D")),
                     ],
                   ),
                 ],
