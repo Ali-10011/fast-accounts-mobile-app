@@ -4,6 +4,7 @@ import 'package:fast_accounts/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:fast_accounts/widgets/custom_snackbar.dart';
 import 'package:fast_accounts/widgets/loading_dialog.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../../../secret.dart';
 
@@ -216,12 +217,14 @@ class _CustomersState extends State<Customers> {
                   label: "Website",
                   hintText: "Website")),
           Expanded(
-              flex: 1,
-              child: createTextFormField(
-                  textController: _mobileController,
-                  label: "Mobile",
-                  hintText: "Mobile",
-                  keyboard: TextInputType.phone)),
+            flex: 1,
+            child: createTextFormField(
+                textController: _mobileController,
+                label: "Mobile",
+                hintText: "Mobile",
+                keyboard: TextInputType.phone,
+                format: r'^\d{0,11}'),
+          ),
         ],
       ),
     ]);
@@ -657,11 +660,15 @@ class _CustomersState extends State<Customers> {
       {required TextEditingController textController,
       String? label,
       String? hintText,
-      TextInputType? keyboard}) {
+      TextInputType? keyboard,
+      String? format}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
       child: TextFormField(
         keyboardType: keyboard ?? TextInputType.text,
+        inputFormatters: (format != null)
+            ? [FilteringTextInputFormatter.allow(RegExp(format))]
+            : null,
         controller: textController,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),
